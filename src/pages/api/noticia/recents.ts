@@ -5,9 +5,7 @@ import {withCors} from "../../../lib/withCors.ts";
 export const GET: APIRoute = async () => {
     try {
         const result = await pool.query(`
-          SELECT * FROM noticias_mdr 
-          ORDER BY publication_date DESC 
-          LIMIT 4
+            SELECT * FROM noticias_mdr ORDER BY to_timestamp(publication_date, 'YYYY-MM-DD HH24:MI') DESC LIMIT 4
         `);
 
         return withCors(result.rows);
