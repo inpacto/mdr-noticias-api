@@ -1,11 +1,11 @@
 import type { APIRoute } from 'astro';
 import { pool } from '../../../lib/db';
-import { withCors } from '../../../lib/withCors';
+import { withCors } from '../../../lib/withCors.ts';
 
 export const GET: APIRoute = async () => {
     try {
         const result = await pool.query(`
-            SELECT * FROM noticias_mdr ORDER BY to_timestamp(publication_date, 'YYYY-MM-DD HH24:MI') DESC
+            SELECT * FROM noticias_mdr ORDER BY to_timestamp(publication_date, 'DD/MM/YYYY HH24hMI') DESC
         `);
 
         return withCors(result.rows);
