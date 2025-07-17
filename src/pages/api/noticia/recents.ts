@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { pool } from '../../../lib/db';
+import {withCors} from "../../../lib/withCors.ts";
 
 export const GET: APIRoute = async () => {
     try {
@@ -8,8 +9,9 @@ export const GET: APIRoute = async () => {
           ORDER BY publication_date DESC 
           LIMIT 4
         `);
-        return new Response(JSON.stringify(result.rows), { status: 200 });
+
+        return withCors(result.rows);
     } catch (err) {
-        return new Response(JSON.stringify({ error: 'Erro ao buscar notícias' }), { status: 500 });
+        return withCors({ error: 'Erro ao buscar notícias' }, 500);
     }
 };
